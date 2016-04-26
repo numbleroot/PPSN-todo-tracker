@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+
+    <head>
+
+        <meta http-equiv = "content-type" content = "text/html; charset=utf-8" />
+        <meta name = "viewport" content = "width=device-width, initial-scale=1">
+        <title>Edit ToDo #2</title>
+        <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap.min.css" />
+        <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap-datepicker3.standalone.min.css" />
+        <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap-slider.min.css" />
+        <meta name = "language" content = "en" />
+
+    </head>
+
+    <body>
+
+        <nav class = "navbar navbar-default">
+
+            <div class = "container">
+
+                <div class = "navbar-header">
+                    <a href = "../index.html" class = "navbar-brand">
+                        <span class = "glyphicon glyphicon-home"></span>
+                    </a>
+                </div>
+
+                <ul class = "nav navbar-nav navbar-right">
+
+                    <li>
+                        <a href = "../views/add.html" class = "navbar-add">
+                            <span class = "glyphicon glyphicon-plus"></span>
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
+
+        <div class = "container">
+
+            <form class = "form-horizontal">
+
+                <fieldset>
+
+                    <legend>Edit ToDo #2</legend>
+
+                    <div class = "form-group">
+
+                        <label for = "inputToDo" class = "col-sm-2 control-label">ToDo description:</label>
+                        <div class = "col-sm-10">
+                            <input class = "form-control" id = "inputToDo" placeholder = "What do you have to do?" type = "text" />
+                        </div>
+
+                    </div>
+
+                    <div class = "form-group">
+
+                        <label for = "inputDate" class = "col-sm-2 control-label">Deadline:</label>
+                        <div class = "col-sm-10">
+                            <div class = "input-group date" id = "inputDatepicker">
+                                <input type = "text" class = "form-control" placeholder = "Until when do you have to complete the task?" />
+                                <div class = "input-group-addon">
+                                    <span class = "glyphicon glyphicon-th"></span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class = "form-group">
+
+                        <label for = "inputProgress" class = "col-sm-2 control-label">Progress:</label>
+                        <div class = "col-sm-10">
+                            <input id = "inputProgress" data-slider-id = "inputProgressSlider" type = "text" data-slider-min = "0" data-slider-max = "100" data-slider-step = "1" data-slider-value = "0" />
+                        </div>
+
+                    </div>
+
+                    <div class = "form-group">
+
+                        <div class = "col-sm-10 col-sm-offset-2">
+                            <button type = "submit" class = "btn btn-primary">Update ToDo</button>
+                        </div>
+
+                    </div>
+
+                </fieldset>
+
+            </form>
+
+        </div>
+
+        <footer class = "container text-center">
+
+            <a href = "../views/imprint.html">Imprint</a>
+
+            <script type = "text/javascript" src = "../js/jquery.min.js" charset = "utf-8"></script>
+            <script type = "text/javascript" src = "../js/bootstrap.min.js" charset = "utf-8"></script>
+            <script type = "text/javascript" src = "../js/bootstrap-datepicker.min.js" charset = "utf-8"></script>
+            <script type = "text/javascript" src = "../js/bootstrap-slider.min.js" charset = "utf-8"></script>
+
+            <script type = "text/javascript" charset = "utf-8">
+
+                $('#inputDatepicker').datepicker({
+                    format: "dd/mm/yyyy",
+                    clearBtn: true,
+                    todayHighlight: true,
+                    autoclose: true
+                });
+
+                $('#inputProgress').slider({
+                    formatter: function(value) {
+                        return 'Progress: ' + value;
+                    }
+                });
+
+            </script>
+
+        </footer>
+
+    </body>
+
+</html>
