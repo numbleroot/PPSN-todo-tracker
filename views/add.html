@@ -2,13 +2,22 @@
 
     <head>
 
+        <!-- Specify UTF-8 charset. -->
         <meta http-equiv = "content-type" content = "text/html; charset=utf-8" />
+        <!-- Define viewport, important for mobile view (responsive). -->
         <meta name = "viewport" content = "width=device-width, initial-scale=1">
         <title>Add new ToDo</title>
+        <!-- Import Bootstrap with theme "Superhero" from bootswatch.com. -->
         <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap.min.css" />
+        <!-- Import plugin styles for datepicker and progress bar slider. -->
         <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap-datepicker3.standalone.min.css" />
         <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap-slider.min.css" />
         <meta name = "language" content = "en" />
+
+        <!-- CSS style dedicated to progress bar. -->
+        <style type = "text/css">
+            #inputProgressSlider { width: 100%; }
+        </style>
 
     </head>
 
@@ -19,18 +28,32 @@
             <div class = "container">
 
                 <div class = "navbar-header">
+
+                    <button type = "button" class = "navbar-toggle collapsed" data-toggle = "collapse" data-target = "#collapsed-nav" aria-expanded = "false">
+                        <span class = "sr-only">Toggle navigation</span>
+                        <span class = "icon-bar"></span>
+                        <span class = "icon-bar"></span>
+                        <span class = "icon-bar"></span>
+                    </button>
+
                     <a href = "../index.html" class = "navbar-brand">
                         <span class = "glyphicon glyphicon-home"></span>
                     </a>
+
                 </div>
 
-                <ul class = "nav navbar-nav navbar-right">
-                    <li>
-                        <a href = "../views/add.html" class = "navbar-add">
-                            <span class = "glyphicon glyphicon-plus"></span>
-                        </a>
-                    </li>
-                </ul>
+                <div class = "collapse navbar-collapse" id = "collapsed-nav">
+
+                    <ul class = "nav navbar-nav navbar-right">
+                        <li>
+                            <a href = "./add.html">Add ToDo</a>
+                        </li>
+                        <li>
+                            <a href = "./imprint.html">Imprint</a>
+                        </li>
+                    </ul>
+
+                </div>
 
             </div>
 
@@ -90,15 +113,17 @@
 
         </div>
 
-        <footer class = "container text-center">
+        <footer>
 
-            <a href = "../views/imprint.html">Imprint</a>
-
+            <!-- Import jQuery and Bootstrap JavaScript. -->
             <script type = "text/javascript" src = "../js/jquery.min.js" charset = "utf-8"></script>
             <script type = "text/javascript" src = "../js/bootstrap.min.js" charset = "utf-8"></script>
+
+            <!-- Import JavaScript files for datepicker and progress bar slider. -->
             <script type = "text/javascript" src = "../js/bootstrap-datepicker.min.js" charset = "utf-8"></script>
             <script type = "text/javascript" src = "../js/bootstrap-slider.min.js" charset = "utf-8"></script>
 
+            <!-- Initialize and configure both imported plugins. -->
             <script type = "text/javascript" charset = "utf-8">
 
                 $('#inputDatepicker').datepicker({
