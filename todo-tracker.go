@@ -4,15 +4,16 @@ import (
 	"runtime"
 
 	"github.com/gin-gonic/gin"
-	_ "github.com/jinzhu/gorm"
-	// _ "github.com/mattn/go-sqlite3"
+	"github.com/jinzhu/gorm"
+	"github.com/numbleroot/PPSN-todo-tracker/db"
 )
 
-type TodoItem struct {
-	ID          int
-	Description string
-	Deadline    string
-	Progress    int
+func DatabaseMiddleware(db *gorm.DB) gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		c.Set("db", db)
+		c.Next()
+	}
 }
 
 func ListView(c *gin.Context) {
@@ -69,6 +70,10 @@ func main() {
 
 	// Instantiate new gin router with default middleware.
 	app := gin.Default()
+
+	// Open up database connection and add it as middleware.
+	db := db.InitDB("todos.sqlite3")
+	app.Use(DatabaseMiddleware(db))
 
 	// Load HTML template files.
 	app.LoadHTMLGlob("views/*")
