@@ -1,0 +1,70 @@
+package main
+
+import (
+	"runtime"
+
+	"github.com/gin-gonic/gin"
+	_ "github.com/jinzhu/gorm"
+	// _ "github.com/mattn/go-sqlite3"
+)
+
+type TodoItem struct {
+	ID          int
+	Description string
+	Deadline    string
+	Progress    int
+}
+
+func ListView(c *gin.Context) {
+
+	TodoList := make([]TodoItem, 1)
+
+	TodoList[0] = TodoItem{
+		ID:          1,
+		Description: "Poke Tom!",
+		Deadline:    "11/05/2016",
+		Progress:    40,
+	}
+
+	c.HTML(200, "index.html", gin.H{
+		"TodoList": TodoList,
+	})
+}
+
+func AddView(c *gin.Context) {
+	c.HTML(200, "add.html", gin.H{})
+}
+
+func AddHandler(c *gin.Context) {}
+
+func EditView(c *gin.Context) {
+	c.HTML(200, "edit.html", gin.H{})
+}
+
+func EditHandler(c *gin.Context) {}
+
+func DeleteHandler(c *gin.Context) {}
+
+func main() {
+
+	// Set maximum available CPUs to be used by go.
+	numCPU := runtime.NumCPU()
+	runtime.GOMAXPROCS(numCPU)
+
+	// Instantiate new gin router with default middleware.
+	app := gin.Default()
+
+	// Load HTML template files.
+	app.LoadHTMLGlob("views/*")
+
+	// Define routes to end points.
+	app.GET("/", ListView)
+	app.GET("/add", AddView)
+	app.POST("/add", AddHandler)
+	app.GET("/edit/:todoID", EditView)
+	app.POST("/edit/:todoID", EditHandler)
+	app.GET("/delete/:todoID", DeleteHandler)
+
+	// Start the web application.
+	app.Run(":8080")
+}
