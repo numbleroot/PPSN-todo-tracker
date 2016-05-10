@@ -3,6 +3,8 @@ package main
 import (
 	"log"
 	"runtime"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/numbleroot/PPSN-todo-tracker/db"
@@ -21,7 +23,7 @@ func ListView(c *gin.Context) {
 	var TodoList []db.TodoItem
 
 	// Retrieve database connection instance from context.
-	db, ok := c.MustGet("db").(gorm.DB)
+	db, ok := c.MustGet("db").(*gorm.DB)
 	if !ok {
 		log.Fatal("[ListView] Could not retrieve database connection from gin context.")
 	}
@@ -46,12 +48,28 @@ func AddView(c *gin.Context) {
 func AddHandler(c *gin.Context) {
 
 	// Retrieve data from formular.
+	todoDescription := c.PostForm("todoDescription")
+	todoDeadline := c.PostForm("todoDeadline")
+	todoProgress, _ := strconv.Atoi(c.PostForm("todoProgress"))
 
 	// Create todo item based on input data.
+	Todo := db.TodoItem{
+		Description: todoDescription,
+		Deadline:    todoDeadline,
+		Progress:    todoProgress,
+	}
+
+	// Retrieve database connection instance from context.
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		log.Fatal("[AddHandler] Could not retrieve database connection from gin context.")
+	}
 
 	// Save model to database.
+	db.Create(&Todo)
 
 	// On success - redirect to list view.
+	c.Redirect(301, "/")
 }
 
 func EditView(c *gin.Context) {
@@ -59,7 +77,7 @@ func EditView(c *gin.Context) {
 	var Todo db.TodoItem
 
 	// Retrieve database connection instance from context.
-	db, ok := c.MustGet("db").(gorm.DB)
+	db, ok := c.MustGet("db").(*gorm.DB)
 	if !ok {
 		log.Fatal("[EditView] Could not retrieve database connection from gin context.")
 	}
@@ -93,7 +111,7 @@ func main() {
 	db := db.InitDB("todos.sqlite3")
 	app.Use(DatabaseMiddleware(db))
 
-	// Load HTML template files.
+	// Load HTML template files.db
 	app.LoadHTMLGlob("views/*")
 	app.Static("/css", "./css")
 	app.Static("/js", "./js")
