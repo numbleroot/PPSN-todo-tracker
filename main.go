@@ -94,9 +94,57 @@ func EditView(c *gin.Context) {
 	})
 }
 
-func EditHandler(c *gin.Context) {}
+func EditHandler(c *gin.Context) {
 
-func DeleteHandler(c *gin.Context) {}
+	var Todo db.TodoItem
+
+	// Retrieve data from formular.
+	todoID := c.Params.ByName("todoID")
+	todoDescription := c.PostForm("todoDescription")
+	todoDeadline := c.PostForm("todoDeadline")
+	todoProgress, _ := strconv.Atoi(c.PostForm("todoProgress"))
+
+	// Retrieve database connection instance from context.
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		log.Fatal("[EditHandler] Could not retrieve database connection from gin context.")
+	}
+
+	// Get old values of todo item.
+	db.Find(&Todo, "id = ?", todoID)
+
+	// Update todo item in database.
+	Todo.Description = todoDescription
+	Todo.Deadline = todoDeadline
+	Todo.Progress = todoProgress
+	db.Save(&Todo)
+
+	// On success - redirect to list view.
+	c.Redirect(301, "/")
+}
+
+func DeleteHandler(c *gin.Context) {
+
+	var Todo db.TodoItem
+
+	// Retrieve data from context.
+	todoID := c.Params.ByName("todoID")
+
+	// Retrieve database connection instance from context.
+	db, ok := c.MustGet("db").(*gorm.DB)
+	if !ok {
+		log.Fatal("[DeleteHandler] Could not retrieve database connection from gin context.")
+	}
+
+	// Retrieve todo item from database.
+	db.Find(&Todo, "id = ?", todoID)
+
+	// Delete todo item from database.
+	db.Delete(&Todo)
+
+	// On success - redirect to list view.
+	c.Redirect(301, "/")
+}
 
 func main() {
 
@@ -127,5 +175,6 @@ func main() {
 	app.GET("/imprint", ImprintView)
 
 	// Start the web application.
+	log.Println("\nToDo tracker application.")
 	app.Run(":8080")
 }

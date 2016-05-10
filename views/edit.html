@@ -6,7 +6,7 @@
         <meta http-equiv = "content-type" content = "text/html; charset=utf-8" />
         <!-- Define viewport, important for mobile view (responsive). -->
         <meta name = "viewport" content = "width=device-width, initial-scale=1">
-        <title>Edit ToDo #3</title>
+        <title>Edit ToDo {{ .Todo.ID }}</title>
         <!-- Import Bootstrap with theme "Superhero" from bootswatch.com. -->
         <link rel = "stylesheet" type = "text/css" href = "../css/bootstrap.min.css" />
         <!-- Import plugin styles for datepicker and progress bar slider. -->
@@ -60,18 +60,18 @@
         </nav>
 
         <div class = "container">
-
-            <form class = "form-horizontal">
+            {{with .Todo}}
+            <form class = "form-horizontal" action = "/edit/{{ .ID }}" method = "POST">
 
                 <fieldset>
 
-                    <legend>Edit ToDo #3</legend>
+                    <legend>Edit ToDo {{ .ID }}</legend>
 
                     <div class = "form-group">
 
                         <label for = "inputToDo" class = "col-sm-2 control-label">ToDo description:</label>
                         <div class = "col-sm-10">
-                            <input class = "form-control" id = "inputToDo" placeholder = "What do you have to do?" type = "text" value = "Finish paper about Big Elastic Buzzword Clouds™" />
+                            <input class = "form-control" id = "inputToDo" placeholder = "What do you have to do?" type = "text" name = "todoDescription" value = "{{ .Description }}" />
                         </div>
 
                     </div>
@@ -81,7 +81,7 @@
                         <label for = "inputDate" class = "col-sm-2 control-label">Deadline:</label>
                         <div class = "col-sm-10">
                             <div class = "input-group date" id = "inputDatepicker">
-                                <input type = "text" class = "form-control" placeholder = "Until when do you have to complete the task?" value = "12/06/2016" />
+                                <input type = "text" class = "form-control" placeholder = "Until when do you have to complete the task?" name = "todoDeadline" value = "{{ .Deadline }}" />
                                 <div class = "input-group-addon">
                                     <span class = "glyphicon glyphicon-th"></span>
                                 </div>
@@ -94,7 +94,7 @@
 
                         <label for = "inputProgress" class = "col-sm-2 control-label">Progress:</label>
                         <div class = "col-sm-10">
-                            <input id = "inputProgress" data-slider-id = "inputProgressSlider" type = "text" data-slider-min = "0" data-slider-max = "100" data-slider-step = "1" data-slider-value = "87" />
+                            <input id = "inputProgress" data-slider-id = "inputProgressSlider" type = "text" data-slider-min = "0" data-slider-max = "100" data-slider-step = "1" name = "todoProgress" data-slider-value = "{{ .Progress }}" />
                         </div>
 
                     </div>
@@ -110,7 +110,7 @@
                 </fieldset>
 
             </form>
-
+            {{ end }}
         </div>
 
         <footer>
