@@ -26,6 +26,9 @@ func ListView(c *gin.Context) {
 		Progress:    40,
 	}
 
+	// Make a database call for all todo items.
+
+	// Forward todo list to template parser.
 	c.HTML(200, "index.html", gin.H{
 		"TodoList": TodoList,
 	})
@@ -35,9 +38,22 @@ func AddView(c *gin.Context) {
 	c.HTML(200, "add.html", gin.H{})
 }
 
-func AddHandler(c *gin.Context) {}
+func AddHandler(c *gin.Context) {
+
+	// Retrieve data from formular.
+
+	// Create todo item based on input data.
+
+	// Save model to database.
+
+	// On success - redirect to list view.
+}
 
 func EditView(c *gin.Context) {
+
+	// Database query.
+
+	// Forward data to template parser.
 	c.HTML(200, "edit.html", gin.H{})
 }
 
