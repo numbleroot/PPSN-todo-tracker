@@ -19,7 +19,7 @@ type TodoItem struct {
 // Database functions
 
 // Create connection to sqlite3 database storing the todos.
-func InitDB(databaseName string) *DB {
+func InitDB(databaseName string) *gorm.DB {
 
 	// Tries to connect to specified sqlite3 database.
 	db, err := gorm.Open("sqlite3", databaseName)
