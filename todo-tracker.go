@@ -2,7 +2,6 @@ package main
 
 import (
 	"runtime"
-
 	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm"
 	// _ "github.com/mattn/go-sqlite3"
@@ -32,6 +31,10 @@ func ListView(c *gin.Context) {
 	c.HTML(200, "index.html", gin.H{
 		"TodoList": TodoList,
 	})
+}
+
+func ImprintView(c *gin.Context) {
+	c.HTML(200, "imprint.html", gin.H{})
 }
 
 func AddView(c *gin.Context) {
@@ -72,6 +75,9 @@ func main() {
 
 	// Load HTML template files.
 	app.LoadHTMLGlob("views/*")
+	app.Static("/css", "./css")
+	app.Static("/js", "./js")
+	app.Static("/fonts", "./fonts")
 
 	// Define routes to end points.
 	app.GET("/", ListView)
@@ -80,6 +86,7 @@ func main() {
 	app.GET("/edit/:todoID", EditView)
 	app.POST("/edit/:todoID", EditHandler)
 	app.GET("/delete/:todoID", DeleteHandler)
+	app.GET("/imprint", ImprintView)
 
 	// Start the web application.
 	app.Run(":8080")
