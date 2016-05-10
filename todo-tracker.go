@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"runtime"
 
 	"github.com/gin-gonic/gin"
@@ -18,16 +19,16 @@ func DatabaseMiddleware(db *gorm.DB) gin.HandlerFunc {
 
 func ListView(c *gin.Context) {
 
-	TodoList := make([]TodoItem, 1)
+	var TodoList []db.TodoItem
 
-	TodoList[0] = TodoItem{
-		ID:          1,
-		Description: "Poke Tom!",
-		Deadline:    "11/05/2016",
-		Progress:    40,
+	// Retrieve database connection instance from context.
+	db, ok := c.MustGet("db").(gorm.DB)
+	if !ok {
+		log.Fatal("[ListView] Could not retrieve database connection from gin context.")
 	}
 
 	// Make a database call for all todo items.
+	db.Find(&TodoList)
 
 	// Forward todo list to template parser.
 	c.HTML(200, "index.html", gin.H{
@@ -52,10 +53,24 @@ func AddHandler(c *gin.Context) {
 
 func EditView(c *gin.Context) {
 
+	var Todo db.TodoItem
+
+	// Retrieve database connection instance from context.
+	db, ok := c.MustGet("db").(gorm.DB)
+	if !ok {
+		log.Fatal("[EditView] Could not retrieve database connection from gin context.")
+	}
+
+	// Get ID of todo from context.
+	todoID := c.Params.ByName("todoID")
+
 	// Database query.
+	db.Find(&Todo, "id = ?", todoID)
 
 	// Forward data to template parser.
-	c.HTML(200, "edit.html", gin.H{})
+	c.HTML(200, "edit.html", gin.H{
+		"Todo": Todo,
+	})
 }
 
 func EditHandler(c *gin.Context) {}
