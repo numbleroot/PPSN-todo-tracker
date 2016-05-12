@@ -36,5 +36,5 @@ func InitDB(databaseName string) *gorm.DB {
 	// Check if todo table is present. If not, create it.
 	db.CreateTable(&TodoItem{})
 
-	return &db
+	return db
 }
